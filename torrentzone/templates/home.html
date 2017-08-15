@@ -6,7 +6,10 @@
       <th>pk</th>
       <th>Torrent Name</th>
       <th>Torrent Link</th>
+      {% if user.is_authenticated and user.is_staff %}
       <th>delete</th>
+      {% endif %}
+      <th>details</th>
     </tr>
   </thead>
   <tbody>
@@ -15,7 +18,10 @@
             <th scope="row">{{ i.pk }}</th>
             <td>{{ i.torrentName }}</td>
             <td><a href='{{ i.torrentLink }}'>{{ i.torrentLink }}</a></td>
+            {% if user.is_authenticated and user.is_staff %}
             <td><a href="{% url 'delete_torrent' i.id %}">delete</a></td>
+            {% endif %}
+            <td><a href="{% url 'torrent_details' i.id %}">details</a></td>
           </tr>
       {% endfor %}
 

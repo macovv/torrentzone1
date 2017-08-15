@@ -5,13 +5,11 @@ from .models import torrentModel
 from .forms import torrentForm
 from django.shortcuts import redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-# Create your views here.
+from utils.titleSearcher import titleSearcher
 
 def home(request):
     allTorrents = torrentModel.objects.all()
     paginator = Paginator(allTorrents, 10) # Show 25 contacts per page
-
     page = request.GET.get('page')
     try:
         torrents = paginator.page(page)
@@ -21,10 +19,7 @@ def home(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         torrents = paginator.page(paginator.num_pages)
-
     return render(request, 'home.html', {'torrents': torrents})
-
-
 
 def create(request):
     torrForm = torrentForm(request.POST or None)
@@ -44,3 +39,16 @@ def delete_torrent(request, pk):
         x = torrentModel.objects.get(pk=pk)
         x.delete()
     return redirect("home")
+
+def torrent_details(request, pk):
+    x = torrentModel.objects.get(pk=pk)
+    x2 = titleSearcher()
+    lo = x2.search()
+    context = {
+        "obj": x,
+        "title": lo,
+    }
+    return render (request,"details.html",context)
+
+def about(request):
+    return render(request,"about.html")

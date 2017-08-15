@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'torrentzone.context_processors.add_title',
             ],
         },
     },
@@ -120,3 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#ACCOUNT_ACTIVATION_DAYS
+ACCOUNT_ACTIVATION_DAYS = 2
